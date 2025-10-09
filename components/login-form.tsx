@@ -57,7 +57,7 @@ export function LoginForm({
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/oauth?next=/protected`,
+          redirectTo: `${window.location.origin}/auth/callback?next=/protected`,
         },
       });
 
@@ -112,7 +112,7 @@ export function LoginForm({
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                "Login"
+                Login
               </Button>
 
               <LoginWithGoogleButton onClick={handleSocialLogin} disabled={isLoading} />
