@@ -1,13 +1,9 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
-export default async function Home() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
-
+export default function Home() {
+  // Authenticated users are redirected to /dashboard by middleware
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="absolute top-4 right-4">
@@ -21,20 +17,12 @@ export default async function Home() {
         </p>
 
         <div className="flex gap-4 mt-8">
-          {user ? (
-            <Button asChild size="lg">
-              <Link href="/dashboard">Go to Dashboard</Link>
-            </Button>
-          ) : (
-            <>
-              <Button asChild size="lg">
-                <Link href="/auth/login">Login</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/auth/sign-up">Sign Up</Link>
-              </Button>
-            </>
-          )}
+          <Button asChild size="lg">
+            <Link href="/auth/login">Login</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/auth/sign-up">Sign Up</Link>
+          </Button>
         </div>
       </div>
     </main>

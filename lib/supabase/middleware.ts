@@ -40,6 +40,18 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
+  // Redirect authenticated users from landing page to dashboard
+  if (
+    user && request.nextUrl.pathname === "/" ||
+    user && request.nextUrl.pathname === "/auth/login" ||
+    user && request.nextUrl.pathname === "/auth/sign-up"
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
+
+  // Redirect unauthenticated users to login for protected routes
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&

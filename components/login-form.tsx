@@ -105,6 +105,7 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -112,7 +113,7 @@ export function LoginForm({
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                Login
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
 
               <LoginWithGoogleButton onClick={handleSocialLogin} disabled={isLoading} />

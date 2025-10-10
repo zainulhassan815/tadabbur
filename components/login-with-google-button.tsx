@@ -6,7 +6,7 @@ export function LoginWithGoogleButton(
     props: React.ComponentProps<"button"> & VariantProps<typeof buttonVariants>
 ) {
     return (
-        <Button variant="outline" {...props} >
+        <Button type="button" variant="outline" {...props} >
             <GoogleLogo />
             {" "}
             Continue with Google
