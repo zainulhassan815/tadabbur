@@ -11,7 +11,7 @@ export const useCurrentUserName = () => {
         console.error(error)
       }
 
-      setName(data.session?.user.user_metadata.full_name ?? '?')
+      setName(data.session?.user.user_metadata.full_name ?? data.session?.user.email?.split("@")[0] ?? '?')
     }
 
     fetchProfileName()
