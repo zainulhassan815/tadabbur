@@ -53,10 +53,31 @@ const apiClient = axios.create({
   },
 });
 
+// Add a request interceptor to include the access token
 apiClient.interceptors.request.use(async (config) => {
   const token = await getAccessToken();
   config.headers.set("x-auth-token", token);
   return config;
 });
+
+// Add a response interceptor to handle 401 errors and retry once
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If 401 error and not already retried, clear token cache and retry once
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      tokenCache = null;
+
+      const token = await getAccessToken();
+      originalRequest.headers["x-auth-token"] = token;
+      return apiClient(originalRequest);
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export { apiClient };
