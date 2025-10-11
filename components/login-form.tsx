@@ -48,7 +48,7 @@ export function LoginForm({
     }
   };
 
-  const handleSocialLogin = async (e: React.FormEvent) => {
+  const handleSocialLogin = async () => {
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -116,7 +116,10 @@ export function LoginForm({
                 {isLoading ? "Logging in..." : "Login"}
               </Button>
 
-              <LoginWithGoogleButton onClick={handleSocialLogin} disabled={isLoading} />
+              <LoginWithGoogleButton
+                onClick={handleSocialLogin}
+                disabled={isLoading}
+              />
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

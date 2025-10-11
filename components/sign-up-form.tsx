@@ -57,7 +57,7 @@ export function SignUpForm({
     }
   };
 
-  const handleSocialLogin = async (e: React.FormEvent) => {
+  const handleSocialLogin = async () => {
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -129,7 +129,10 @@ export function SignUpForm({
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Signing up..." : "Sign up"}
               </Button>
-              <LoginWithGoogleButton onClick={handleSocialLogin} disabled={isLoading} />
+              <LoginWithGoogleButton
+                onClick={handleSocialLogin}
+                disabled={isLoading}
+              />
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
