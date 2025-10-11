@@ -1,7 +1,7 @@
+import Link from "next/link";
+import { CurrentUserAvatar } from "@/components/current-user-avatar";
 import { LogoutButton } from "@/components/logout-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { CurrentUserAvatar } from "@/components/current-user-avatar";
-import Link from "next/link";
 
 export default function ProtectedLayout({
   children,
@@ -9,22 +9,20 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="flex min-h-screen flex-col">
       <nav className="w-full border-b border-b-foreground/10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
-          <Link href="/" className="text-xl font-bold">
+        <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
+          <Link href="/" className="font-bold text-xl">
             Tadabbur
           </Link>
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <ThemeSwitcher />
             <CurrentUserAvatar />
             <LogoutButton />
           </div>
         </div>
       </nav>
-      <div className="flex-1 w-full max-w-7xl mx-auto p-8">
-        {children}
-      </div>
+      <div className="mx-auto w-full max-w-7xl flex-1 p-8">{children}</div>
     </main>
   );
 }
