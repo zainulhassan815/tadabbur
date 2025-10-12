@@ -80,4 +80,33 @@ apiClient.interceptors.response.use(
   },
 );
 
+// Logging interceptosr for debugging
+apiClient.interceptors.request.use((config) => {
+  console.log(
+    `[API Request] ${config.method?.toUpperCase()} ${config.url}`,
+    config.params || "",
+  );
+  return config;
+});
+
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log(
+      `[API Response] ${response.config.method?.toUpperCase()} ${
+        response.config.url
+      } - ${response.status}`,
+    );
+    return response;
+  },
+  (error) => {
+    console.error(
+      `[API Error] ${error.config?.method?.toUpperCase()} ${
+        error.config?.url
+      } - ${error.response?.status}`,
+      error.message,
+    );
+    return Promise.reject(error);
+  },
+);
+
 export { apiClient };
