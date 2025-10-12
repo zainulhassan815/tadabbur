@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CurrentUserAvatar } from "@/components/current-user-avatar";
 import { LogoutButton } from "@/components/logout-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+
+export const metadata: Metadata = {
+  other: {
+    google: "notranslate",
+  },
+};
 
 export default function ProtectedLayout({
   children,
@@ -22,7 +29,9 @@ export default function ProtectedLayout({
           </div>
         </div>
       </nav>
-      <div className="mx-auto w-full max-w-7xl flex-1 p-8">{children}</div>
+      <div className="mx-auto w-full max-w-7xl flex-1 p-8" translate="no">
+        {children}
+      </div>
     </main>
   );
 }
