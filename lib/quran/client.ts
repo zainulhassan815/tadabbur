@@ -80,7 +80,7 @@ apiClient.interceptors.response.use(
   },
 );
 
-// Logging interceptosr for debugging
+// Logging interceptors for debugging
 apiClient.interceptors.request.use((config) => {
   console.log(
     `[API Request] ${config.method?.toUpperCase()} ${config.url}`,
