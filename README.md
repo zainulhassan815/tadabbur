@@ -1,6 +1,12 @@
 # Tadabbur
 
-A modern web application built with Next.js and Supabase, featuring authentication and a foundation for contemplative content management.
+A modern web application for Quranic reflection and contemplation, built with Next.js and Supabase. Tadabbur integrates with the Quran.com API to provide comprehensive access to Quranic verses, translations, and audio.
+
+<p align="center">
+  <a href="https://tadabbur-pearl.vercel.app" target="_blank">
+    <img src="https://img.shields.io/badge/View%20Live-Demo-blue?style=for-the-badge&logo=vercel" alt="View Live Demo" />
+  </a>
+</p>
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
@@ -11,29 +17,21 @@ A modern web application built with Next.js and Supabase, featuring authenticati
 
 ## Features
 
-- **Authentication System**
-  - Email/password authentication
-  - OAuth integration (Google)
-  - Password reset flow
-  - Protected routes with middleware
-  - Session management via cookies (SSR-ready)
-
-- **Modern Stack**
-  - Next.js 15 with App Router
-  - TypeScript for type safety
-  - Supabase for backend and authentication
-  - Server and client components
-
-- **UI/UX**
-  - Responsive design with Tailwind CSS v4
-  - shadcn/ui component library
-  - Dark/light theme support
-  - Accessible components via Radix UI
+- Type-safe Quran API client with OAuth 2.0 authentication and Zod validation
+- Random ayah retrieval with flexible filtering (chapter, juz, page, translations, audio)
+- Email/password and Google OAuth authentication with Supabase
+- Protected routes with middleware and SSR-ready session management
+- Modern UI with Tailwind CSS v4, shadcn/ui, and dark/light theme support
+- Responsive design with accessible Radix UI components
+- Modular TypeScript architecture for scalability
 
 ## Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org) with TypeScript
 - **Backend**: [Supabase](https://supabase.com) (Authentication, Database)
+- **Quran API**: [Quran.com API](https://api-docs.quran.foundation) with OAuth 2.0
+- **Validation**: [Zod](https://zod.dev) for runtime type validation
+- **HTTP Client**: [Axios](https://axios-http.com) with interceptors
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
 - **Components**: [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/)
 - **Icons**: [Lucide React](https://lucide.dev)
@@ -65,14 +63,22 @@ A modern web application built with Next.js and Supabase, featuring authenticati
 
 3. Create a Supabase project at [database.new](https://database.new)
 
-4. Copy `.env.example` to `.env.local` and update with your Supabase credentials:
+4. Copy `.env.example` to `.env.local` and update with your credentials:
 
    ```
+   # Supabase
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
    NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+
+   # Quran.com API
+   QURAN_API_URL=https://api.quran.com
+   QURAN_AUTH_URL=https://api.quran.com
+   QURAN_CLIENT_ID=[INSERT YOUR QURAN API CLIENT ID]
+   QURAN_CLIENT_SECRET=[INSERT YOUR QURAN API CLIENT SECRET]
    ```
 
-   You can find these values in your [Supabase project's API settings](https://supabase.com/dashboard/project/_/settings/api)
+   - Supabase values can be found in your [Supabase project's API settings](https://supabase.com/dashboard/project/_/settings/api)
+   - Quran API credentials can be obtained from the [Quran.com API](https://api-docs.quran.foundation)
 
 5. Run the development server:
    ```bash
@@ -85,10 +91,12 @@ A modern web application built with Next.js and Supabase, featuring authenticati
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with Turbopack
+- `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+- `npm run lint` - Run Biome linter
+- `npm run format` - Format code with Biome
+- `npm run typecheck` - Run TypeScript type checking
 
 ### Project Structure
 
@@ -96,13 +104,22 @@ A modern web application built with Next.js and Supabase, featuring authenticati
 tadabbur/
 ├── app/                    # Next.js app directory
 │   ├── auth/              # Authentication pages & routes
-│   ├── protected/         # Protected pages (require auth)
+│   ├── (protected)/       # Protected pages (require auth)
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Home page
 ├── components/            # React components
 │   ├── ui/               # shadcn/ui components
 │   └── ...               # Custom components
 ├── lib/                   # Utility functions
+│   ├── quran/            # Quran API integration
+│   │   ├── types/        # Modular type definitions
+│   │   │   ├── models.ts      # API entity schemas
+│   │   │   ├── fields.ts      # Field constants
+│   │   │   ├── query-params.ts # Query parameter types
+│   │   │   ├── responses.ts   # Response schemas
+│   │   │   └── index.ts       # Barrel exports
+│   │   ├── client.ts     # Axios client with OAuth
+│   │   └── service.ts    # API service methods
 │   └── supabase/         # Supabase client setup
 ├── hooks/                 # Custom React hooks
 └── middleware.ts          # Next.js middleware (auth)
@@ -136,8 +153,16 @@ The project uses shadcn/ui with the default theme. To customize:
 ### Environment Variables
 
 Ensure these are set in your deployment environment:
+
+**Supabase:**
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+**Quran API:**
+- `QURAN_API_URL`
+- `QURAN_AUTH_URL`
+- `QURAN_CLIENT_ID`
+- `QURAN_CLIENT_SECRET`
 
 ## License
 
@@ -147,5 +172,7 @@ See [LICENSE](LICENSE) for details.
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Supabase Documentation](https://supabase.com/docs)
+- [Quran.com API Documentation](https://api-docs.quran.foundation)
+- [Quran API Postman Collection](https://github.com/zainulhassan815/quran-api-collection) - Complete Bruno collection for Quran.com API
 - [shadcn/ui Documentation](https://ui.shadcn.com)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
